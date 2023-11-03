@@ -1,0 +1,17 @@
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+body{
+  text-align: center;
+}
+.badge{
+  cursor: pointer;
+}
+.modal-content{
+  background-color: rgb(52, 52, 52);
+}

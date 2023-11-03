@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+  margin: 0;
+  padding: 0;
+
+  }
+  :root {
+    --primary: #0d47a1;
+    --body: #2c2c2c;
+    --text-menu: #fff;
+    --body-color: #fff;
+
+  }
+
+  :root .light-theme {
+    --primary: #1976d2;
+    --body: #fff;
+    --text-menu: #fff;
+    --body-color: #fff;
+    --text-body: #4b4b4b;
+  }
+
+
+  body {
+    background-color: var(--body);
+    color: var(--body-color);
+    /* font-family: Arial, Helvetica, sans-serif; */
+  }

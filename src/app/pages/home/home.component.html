@@ -1,0 +1,68 @@
+<body (load)="lastIndication(idUser)">
+  <main>
+    <div class="container">
+      <div class="row align-items-end">
+        <div class="col-sm-7">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              placeholder="Matrícula"
+              [(ngModel)]="idCustomer"
+              name="signUpData"
+            />
+            <label for="floatingInput" style="color: black">Matrícula</label>
+          </div>
+        </div>
+        <div class="col align-self-center">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="referCustomer()"
+          >
+            Indicar Aluno
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="active === true" class="alert alert-danger" role="alert">
+      Aluno já indicado!
+    </div>
+    <div *ngIf="deleted === true" class="alert alert-danger" role="alert">
+      Aluno excluído!
+    </div>
+    <div *ngIf="completed === true" class="alert alert-success" role="alert">
+      Aluno indicado!
+    </div>
+    <div class="container">
+        <div class="container text-center">
+          <div class="row" >
+           <div *ngFor="let item of usersDataArray"><p><strong style="font-size: 20px;"> Indicações: </strong><span style="font-size: 20px;">{{item.qtd}}</span>  </p> </div>
+            <ul *ngFor="let item of usersCustomerArray">
+              <li class="list-group-item list-group-item-success align-items-center justify-content-between"  style="border-radius: 80px; max-width: 150px; margin: auto;" (click)="showDelete()">{{ item.id }}<span data-bs-toggle="modal" data-bs-target="#exampleModal" *ngIf="delete==true" class="badge bg-danger rounded-pill" style="float: right; margin-top: 2px;">X</span></li>
+              <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel" >Excluir aluno</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+ Tem certeza que deseja excluir o aluno?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+        <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" (click)="deleteCustomer(item.id)" >Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>
+            </ul>
+          </div>
+        </div>
+
+    </div>
+  </main>
+</body>

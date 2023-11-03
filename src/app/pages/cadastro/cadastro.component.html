@@ -1,0 +1,17 @@
+<form [formGroup]="registerForm">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Nome</label>
+    <input type="text"  class="form-control" formControlName="name" name="signUpData">
+    <label for="exampleFormControlInput1" class="form-label">Último Nome</label>
+    <input type="text"  class="form-control" formControlName="lastname" name="signUpData">
+    <label for="exampleFormControlInput1" class="form-label">Email</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Digite seu email"  formControlName="email" name="signUpData">
+    <label for="inputPassword5" class="form-label">Password</label>
+<input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" formControlName="password" name="signUpData">
+  </div>
+  <div *ngIf="errorCode === 'auth/email-already-in-use'" class="invalid">
+    Email já cadastrado
+    </div>
+<input type="submit" value="Cadastrar" (click)="cadastrar()">
+</form>
+

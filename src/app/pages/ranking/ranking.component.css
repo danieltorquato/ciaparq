@@ -1,0 +1,14 @@
+.center-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 100% da altura da viewport (janela do navegador) */
+  width: 80vh;
+}
+.modal-body{
+  display: flex;
+  flex-wrap: wrap;
+}
+.cardranking{
+  margin-bottom: 10px;
+}

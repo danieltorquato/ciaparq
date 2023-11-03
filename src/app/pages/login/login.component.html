@@ -1,0 +1,27 @@
+<body>
+  <div class="container center-div">
+    <div class="row">
+        <div class="col">
+            <form action="" novalidate>
+                <h1>Cia Parq</h1>
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" placeholder="nome@exemplo.com" [(ngModel)]="email" name="signUpData">
+                  <label for="floatingInput" style="color: black;">Email </label>
+                </div>
+                <div class="form-floating">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Senha"  [(ngModel)]="password" name="signUpData">
+                  <label for="floatingPassword" style="color: black;">Senha</label>
+                </div>
+                <div *ngIf="errorCode === 'auth/invalid-login-credentials'" class="invalid">
+                Email ou senha incorretos
+                </div>
+                <br>
+
+                <input type="submit" class="btn btn-success" value="Login" (click)="login()">
+
+              </form>
+        </div>
+    </div>
+  </div>
+</body>
+

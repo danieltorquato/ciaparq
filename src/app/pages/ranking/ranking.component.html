@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="container center-div">
+      <div class="row">
+          <div class="col">
+              <div class="card md-10 cardranking"  *ngFor="let item of usersDataArray">
+                  <div class="row g-0" >
+                    <div class="col-md-4">
+                      <img src="" class="card-img-top" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">  {{item.name}} {{item.lastname}}</h5>
+
+                        <p class="card-text"><small class="text-body-secondary">Indicações: </small>  {{item.qtd}}</p>
+                            <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="userCustomers(item.uid)">
+              Ver detalhes
+              </button>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+      </div>
+  </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade .modal-dialog-scrollable " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel" *ngFor="let item of userCustomersArray" >Indicações de {{item.name}} {{item.lastname}}</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group list-customers" *ngFor="let item of userCustomersArray">
+      <li class="list-group-item list-group-item-dark">{{item.id}}</li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Ok</button>
+  </div>
+</div>
+</div>
+</div>
+  </div>
+  </div>
