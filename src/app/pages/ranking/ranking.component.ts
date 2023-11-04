@@ -27,6 +27,9 @@ export class RankingComponent implements OnInit {
   idUserCustomer: string = '';
   docRef: any;
   idCustomer: any;
+  isAdmin: boolean = false;
+  uid: any;
+
 constructor(router: Router){
   this.router = router;
 }
@@ -40,13 +43,20 @@ constructor(router: Router){
         const docRef = doc(db, "users", uid);
         const docSnap = await getDoc(docRef);
 
+
         if (docSnap.exists()) {
-this.actuallyUserArray.push(docSnap.data());
+          if (docSnap.data()['superAdmin'] === true && docSnap.data()['isAdmin'] === true) {
+            this.isSuperAdmin = true;
+            this.isAdmin = true;
+          }else if(docSnap.data()['superAdmin'] === false && docSnap.data()['isAdmin'] === true){
+            this.isSuperAdmin = false;
+            this.isAdmin = true;
+          }
+
+          this.actuallyUserArray.push(docSnap.data());
           if (docSnap.data()['isAdmin'] === false) {
             this.router.navigate(['']);
           }
-        } else {
-
         }
       } else {
         this.router.navigate(['/', 'login']);
@@ -71,7 +81,7 @@ this.actuallyUserArray.push(docSnap.data());
 
     querySnapshotUser.forEach((doc) => {
       this.numQtd = doc.data()['qtd'];
-
+      this.uid = doc.data()['uid']
       this.usersDataArray.push(doc.data());
     });
 

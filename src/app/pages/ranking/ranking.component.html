@@ -17,16 +17,8 @@
                 </p>
                 <!-- Button trigger modal -->
                 <div *ngFor="let user of actuallyUserArray" >
-                <button *ngIf="user.superAdmin === false"
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  (click)="userCustomers(item.uid)"
-                >
-                  Ver detalhes
-                </button>
-                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="user.superAdmin === true">
+
+                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="isSuperAdmin === true && user.isAdmin === true ">
                   <button
                   type="button"
                   class="btn btn-primary"
@@ -46,6 +38,20 @@
                   >
                     Limpar
                   </button>
+
+
+                  </div>
+
+                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="user.superAdmin === false && user.isAdmin === true ">
+                  <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="userCustomers(item.uid)"
+                >
+                  Ver detalhes
+                </button>
 
 
                   </div>
@@ -153,18 +159,19 @@
           </div>
         </div>
       </div>
-      <div *ngFor="let item of usersDataArray">
-        <div *ngIf="item.superAdmin === true">
-          <button
-            type="button"
-            class="btn btn-danger btnclear"
-            data-bs-toggle="modal"
-            data-bs-target="#clearModal"
-            (click)="generalClear(item.uid)"
-          >
-            Limpar tudo
-          </button>
+      <div >
+          <div  *ngIf="isSuperAdmin === true && isAdmin === true">
+            <button
+              type="button"
+              class="btn btn-danger btnclear"
+              data-bs-toggle="modal"
+              data-bs-target="#clearModal"
 
+              (click)="generalClear(uid)"
+            >
+              Limpar tudo
+            </button>
+          </div>
           <div
             class="modal fade .modal-dialog-scrollable"
             id="clearModal"
@@ -216,8 +223,9 @@
               </div>
             </div>
           </div>
-        </div>
+
       </div>
+
     </div>
 
 
