@@ -122,11 +122,9 @@ querySnapshot.forEach((doc) => {
 
 
       });
-
-
-
-
-
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
 }
   async clearUserHistory(uid: any){
   this.clearAllBool = false;
@@ -153,7 +151,9 @@ querySnapshot.forEach(async (doc) => {
     this.docRef = doc.id
     await deleteDoc( doc.ref);
   });
-
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
 }
   async generalClear(uid: any){
   this.idUserClear = uid;
@@ -166,6 +166,7 @@ querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
 
 });
+
   setTimeout(() => {
     this.clearAllBool = true;
   }, 3000);
