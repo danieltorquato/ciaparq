@@ -1,49 +1,225 @@
 <div class="container">
   <div class="container center-div">
-      <div class="row">
-          <div class="col">
-              <div class="card md-10 cardranking"  *ngFor="let item of usersDataArray">
-                  <div class="row g-0" >
-                    <div class="col-md-4">
-                      <img src="" class="card-img-top" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title">  {{item.name}} {{item.lastname}}</h5>
+    <div class="row">
+      <div class="col">
+        <div class="card md-10 cardranking" *ngFor="let item of usersDataArray">
+          <div class="row g-0" >
+            <div class="col-md-4">
+              <img src="" class="card-img-top" alt="..." />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.name }} {{ item.lastname }}</h5>
 
-                        <p class="card-text"><small class="text-body-secondary">Indicações: </small>  {{item.qtd}}</p>
-                            <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="userCustomers(item.uid)">
-              Ver detalhes
-              </button>
+                <p class="card-text">
+                  <small class="text-body-secondary">Indicações: </small>
+                  {{ item.qtd }}
+                </p>
+                <!-- Button trigger modal -->
+                <div *ngFor="let user of actuallyUserArray" >
+                <button *ngIf="user.superAdmin === false"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="userCustomers(item.uid)"
+                >
+                  Ver detalhes
+                </button>
+                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="user.superAdmin === true">
+                  <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="userCustomers(item.uid)"
+                >
+                  Ver detalhes
+                </button>
+                  <button
+
+                    type="button"
+                    class="btn btn-danger btnSuper"
+                    data-bs-toggle="modal"
+                    data-bs-target="#clearFromUserModal"
+                    (click)="generalClear(item.uid)"
+                  >
+                    Limpar
+                  </button>
+
+
+                  </div>
+                     <!-- Modal -->
+    <div
+    class="modal fade .modal-dialog-scrollable"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+
+  >
+    <div class="modal-dialog"  >
+      <div class="modal-content" >
+        <div class="modal-header" >
+        <h1
+            class="modal-title fs-5"
+            id="exampleModalLabel"
+
+          >
+            Indicações de {{ name }}
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <ul
+            class="list-group list-customers"
+            *ngFor="let item of userCustomersArray"
+          >
+            <li class="list-group-item list-group-item-dark">
+              {{ item.id }}
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+                  <div
+                  class="modal fade .modal-dialog-scrollable"
+                  id="clearFromUserModal"
+                  tabindex="-1"
+                  aria-labelledby="clearFromUserModalLabel"
+                  aria-hidden="true"
+
+                >
+                  <div class="modal-dialog" >
+                    <div class="modal-content" >
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title fs-5"
+                          id="clearFromUserModalLabel"
+
+                        >
+                         Limpar histórico
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body" >
+                      Tem certeza que deseja excluir todas as indicações de  <strong>{{ name }} {{ lastName }}?</strong>
+                      <div style="color: red;">ATENÇÃO: Essa ação exclui todos os registros do usuário e não pode ser desfeita!</div>
+                      </div>
+                      <div class="modal-footer"  >
+                        <button *ngIf="clearAllBool === false"
+                          type="button"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          disabled
+                        >
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"
+                        > </span>
+    <span role="status"> Limpar</span>
+                        </button>
+                        <button *ngIf="clearAllBool === true"
+                          type="button"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          (click)="clearUserHistory(idUserClear)"
+                        >
+
+                        Limpar
+                        </button>
                       </div>
                     </div>
                   </div>
+                </div>
+               </div>
+
+              </div>
+            </div>
           </div>
+        </div>
       </div>
-  </div>
+      <div *ngFor="let item of usersDataArray">
+        <div *ngIf="item.superAdmin === true">
+          <button
+            type="button"
+            class="btn btn-danger btnclear"
+            data-bs-toggle="modal"
+            data-bs-target="#clearModal"
+            (click)="generalClear(item.uid)"
+          >
+            Limpar tudo
+          </button>
+
+          <div
+            class="modal fade .modal-dialog-scrollable"
+            id="clearModal"
+            tabindex="-1"
+            aria-labelledby="clearModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1
+                    class="modal-title fs-5"
+                    id="clearModalModalLabel"
+                    style="color: black;"
+                  >
+                  Limpar todo histórico
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body" style="color: black;">
+                  Tem certeza que deseja excluir todas as indicações?
+                  <div style="color: red;">ATENÇÃO: Essa ação exclui todos os registros do usuário e não pode ser desfeita!</div>
+                  </div>
+                  <div class="modal-footer" >
+                    <button *ngIf="clearAllBool === false"
+                      type="button"
+                      class="btn btn-danger"
+                      data-bs-dismiss="modal"
+                      disabled
+                    >
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"> </span>
+<span role="status"> Limpar</span>
+                    </button>
+                    <button *ngIf="clearAllBool === true"
+                      type="button"
+                      class="btn btn-danger"
+                      data-bs-dismiss="modal"
+                      (click)="clearAll()"
+                    >
+
+                    Limpar
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-
-
-<!-- Modal -->
-<div class="modal fade .modal-dialog-scrollable " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content">
-  <div class="modal-header">
-    <h1 class="modal-title fs-5" id="exampleModalLabel" *ngFor="let item of userCustomersArray" >Indicações de {{item.name}} {{item.lastname}}</h1>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  </div>
-  <div class="modal-body">
-    <ul class="list-group list-customers" *ngFor="let item of userCustomersArray">
-      <li class="list-group-item list-group-item-dark">{{item.id}}</li>
-    </ul>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Ok</button>
   </div>
 </div>
-</div>
-</div>
-  </div>
-  </div>

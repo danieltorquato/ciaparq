@@ -38,6 +38,8 @@ export class NavbarComponent implements OnInit {
   }
   signOut() {
     signOut(auth).then(() => {
+      this.isAdmin = false;
+
       this.router.navigate(['/', 'login']);
     }).catch((error) => {
       // An error happened.
