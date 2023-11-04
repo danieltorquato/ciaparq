@@ -123,8 +123,8 @@ querySnapshot.forEach((doc) => {
 
       });
       setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        this.router.navigate(['']);
+            }, 1000);
 }
   async clearUserHistory(uid: any){
   this.clearAllBool = false;
@@ -137,8 +137,6 @@ querySnapshot.forEach((doc) => {
 
 const querySnapshot = await getDocs(q);
 querySnapshot.forEach(async (doc) => {
-  // doc.data() is never undefined for query doc snapshots
-
   this.docRef = doc.id
   await deleteDoc( doc.ref);
 });
@@ -152,7 +150,7 @@ querySnapshot.forEach(async (doc) => {
     await deleteDoc( doc.ref);
   });
   setTimeout(() => {
-    window.location.reload();
+    this.router.navigate(['']);
   }, 1000);
 }
   async generalClear(uid: any){
