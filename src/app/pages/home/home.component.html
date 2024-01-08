@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row align-items-end">
         <div class="col-sm-7">
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 idForm">
             <input
               type="text"
               class="form-control"
@@ -63,6 +63,74 @@
           </div>
         </div>
 
+    </div>
+    <div class="container-fluid text-center ranking-month">
+      <div class="row header-ranking">
+        <div class="col">
+<h1>Vencedores do mês </h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <h2>Recepção</h2>
+          <div class="md-10 cardranking" style="text-align: center;" *ngFor="let item of receptionData">
+            <div class="row g-0" >
+
+              <div class="col">
+                <div class="card-body">
+                  <div class="row row-ranking">
+                   <div class="col">
+
+
+                   </div>
+                   <div class="col">
+                     <p class="card-title" style="font-size: 32px;">{{ item.name }} {{ item.lastname }}</p>
+                   </div>
+                   <div class="col">
+                     <h2 class="text-body-primary" *ngIf="item.numberApprovedDecJan > 0"> {{ item.numberApprovedDecJan }}</h2>
+                   </div>
+
+
+
+                  </div>
+
+
+                </div>
+      </div>
+            </div>
+       </div>
+        </div>
+        <div class="col">
+          <h2>Vendas</h2>
+          <div class=" md-10 cardranking" *ngFor="let item of salesData">
+               <div class="row g-0" >
+
+                 <div class="col">
+                   <div class="card-body">
+                     <div class="row row-ranking">
+                      <div class="col">
+
+
+                      </div>
+                      <div class="col">
+                        <p class="card-title" style="font-size: 32px;">{{ item.name }} {{ item.lastname }}</p>
+                      </div>
+                      <div class="col">
+                        <h2 class="text-body-primary" *ngIf="item.numberApprovedDecJan > 0"> {{ item.numberApprovedDecJan }}</h2>
+                      </div>
+
+
+
+                     </div>
+
+
+                   </div>
+         </div>
+               </div>
+       </div>
+        </div>
+      </div>
     </div>
   </main>
 </body>

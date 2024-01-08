@@ -1,8 +1,206 @@
 <div class="container">
+  <div class="container text-center">
+  </div>
   <div class="container center-div">
     <div class="row">
       <div class="col">
-        <div class="card md-10 cardranking" *ngFor="let item of usersDataArray">
+        <h2 style="text-align: center;">Recepção</h2>
+        <div class="card md-10 cardranking" *ngFor="let item of receptionData">
+          <div class="row g-0" >
+            <div class="col-md-4">
+              <img src="{{item.img}}" class="card-img-top" alt="..." />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.name }} {{ item.lastname }}</h5>
+
+                <p class="card-text">
+                  <small class="text-body-secondary">Indicações: </small>
+                  {{ item.qtd }}
+                  
+                </p>
+                <!-- Button trigger modal -->
+                <div *ngFor="let user of actuallyUserArray" >
+
+                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="isSuperAdmin === true && user.isAdmin === true ">
+                  <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="userCustomers(item.uid)"
+                >
+                  Ver detalhes
+                </button>
+                  <button
+
+                    type="button"
+                    class="btn btn-danger btnSuper"
+                    data-bs-toggle="modal"
+                    data-bs-target="#clearFromUserModal"
+                    (click)="generalClear(item.uid)"
+                  >
+                    Limpar
+                  </button>
+
+
+                  </div>
+
+                <div class="d-grid gap-2 col-8 mx-auto" *ngIf="user.superAdmin === false && user.isAdmin === true ">
+                  <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="userCustomers(item.uid)"
+                >
+                  Ver detalhes
+                </button>
+
+
+                  </div>
+                     <!-- Modal -->
+    <div
+    class="modal fade .modal-dialog-scrollable"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+
+  >
+    <div class="modal-dialog"  >
+      <div class="modal-content" >
+        <div class="modal-header" >
+        <h1
+            class="modal-title fs-5"
+            id="exampleModalLabel"
+
+          >
+            Indicações de {{ name }}
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <ul
+            class="list-group list-customers"
+            *ngFor="let item of userCustomersArray"
+          >
+            <li class="list-group-item list-group-item-dark list-group-item-action">
+              {{ item.id }}
+            </li>
+
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+            Ok
+          </button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#insertApprovedModal">
+            Inserir Aprovados
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal aprovados -->
+  <div class="modal fade" id="insertApprovedModal" tabindex="-1" aria-labelledby="insertApprovedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="insertApprovedModalLabel">Aprovados</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="approvedValue"></label>
+            <input type="number" class="form-control" placeholder="Número de aprovados" id="approvedValue" name="approvedValue" [(ngModel)]="approvedValue" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" (click)="numberApproved(idResponsible)">
+           Salvar
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+             Salvo com sucesso!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!-- Modal aprovados -->
+
+                  <div
+                  class="modal fade .modal-dialog-scrollable"
+                  id="clearFromUserModal"
+                  tabindex="-1"
+                  aria-labelledby="clearFromUserModalLabel"
+                  aria-hidden="true"
+
+                >
+                  <div class="modal-dialog" >
+                    <div class="modal-content" >
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title fs-5"
+                          id="clearFromUserModalLabel"
+
+                        >
+                         Limpar histórico
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body" >
+                      Tem certeza que deseja excluir todas as indicações de  <strong>{{ name }} {{ lastName }}?</strong>
+                      <div style="color: red;">ATENÇÃO: Essa ação exclui todos os registros do usuário e não pode ser desfeita!</div>
+                      </div>
+                      <div class="modal-footer"  >
+                        <button *ngIf="clearAllBool === false"
+                          type="button"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          disabled
+                        >
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"
+                        > </span>
+    <span role="status"> Limpar</span>
+                        </button>
+                        <button *ngIf="clearAllBool === true"
+                          type="button"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          (click)="clearUserHistory(idUserClear)"
+                        >
+
+                        Limpar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h2 style="text-align: center;">Vendas</h2>
+        <div class="card md-10 cardranking" *ngFor="let item of salesData">
           <div class="row g-0" >
             <div class="col-md-4">
               <img src="{{item.img}}" class="card-img-top" alt="..." />
@@ -230,4 +428,58 @@
 
 
   </div>
+</div>
+
+<div
+class="modal fade .modal-dialog-scrollable"
+id="staticBackdrop"
+tabindex="-1"
+aria-labelledby="staticBackdropModalLabel"
+aria-hidden="true"
+
+>
+<div class="modal-dialog" >
+  <div class="modal-content" >
+    <div class="modal-header">
+      <h1
+        class="modal-title fs-5"
+        id="staticBackdropModalLabel"
+
+      >
+       Limpar histórico
+      </h1>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body" >
+    Tem certeza que deseja excluir todas as indicações de  <strong>{{ name }} {{ lastName }}?</strong>
+    <div style="color: red;">ATENÇÃO: Essa ação exclui o aluno indicadp pelo usuário e não pode ser desfeita!</div>
+    </div>
+    <div class="modal-footer"  >
+      <button *ngIf="reprovedUser === false"
+        type="button"
+        class="btn btn-danger"
+        data-bs-dismiss="modal"
+        disabled
+      >
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"
+      > </span>
+<span role="status"> Limpar</span>
+      </button>
+      <button *ngIf="reprovedUser === true"
+        type="button"
+        class="btn btn-danger"
+        data-bs-dismiss="modal"
+        (click)="clearUserHistory(idUserClear)"
+      >
+
+      Limpar
+      </button>
+    </div>
+  </div>
+</div>
 </div>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { collection, getDocs, where, orderBy, limit,query } from '@firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { deleteDoc, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { AuthCredential, onAuthStateChanged, reauthenticateWithCredential } from 'firebase/auth';
+import { deleteDoc, doc, getDoc, increment, onSnapshot, updateDoc } from 'firebase/firestore';
 import { auth, db } from 'src/app/envoirements/environments';
 
 @Component({
@@ -29,16 +29,26 @@ export class RankingComponent implements OnInit {
   idCustomer: any;
   isAdmin: boolean = false;
   uid: any;
+  receptionData: any[]=[];
+  salesData: any[]=[];
+  verified: boolean = false;
+  aprove: boolean = false;
+  reprovedUser: boolean = false;
+  user:any;
+  idResponsible: any;
+  approvedValue: number = 0;
 
-constructor(router: Router){
+constructor(router: Router, private renderer: Renderer2, private el: ElementRef){
   this.router = router;
 }
   ngOnInit(): void {
     this.dataUserCustomer();
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
+        this.user = user;
         const uid = user.uid;
         const docRef = doc(db, "users", uid);
         const docSnap = await getDoc(docRef);
@@ -65,29 +75,29 @@ constructor(router: Router){
   }
 
   async dataUserCustomer(){
-    const q = query(collection(db, "customers") );
 
-    const querySnapshot = await getDocs(q);
+    const qReception = query(collection(db, "users"), where("qtd" , ">=", 1),where("category" , "==", "reception"), orderBy("qtd", "desc"), limit(5));
 
-    querySnapshot.forEach((doc) => {
-      this.customerDataArray.push(doc.data());
-      // doc.data() is never undefined for query doc snapshots
-    });
-    this.quantityCustomers = this.customerDataArray.length
-
-    const qUser = query(collection(db, "users"), where("qtd" , ">=", 1), orderBy("qtd", "desc"), limit(5));
-
-    const querySnapshotUser = await getDocs(qUser);
+    const querySnapshotUser = await getDocs(qReception);
 
     querySnapshotUser.forEach((doc) => {
       this.numQtd = doc.data()['qtd'];
       this.uid = doc.data()['uid']
-      this.usersDataArray.push(doc.data());
+      this.receptionData.push(doc.data());
+    });
+    const qSales = query(collection(db, "users"), where("qtd" , ">=", 1),where("category" , "==", "sales"), orderBy("qtd", "desc"), limit(5));
+
+    const querySnapshotSales = await getDocs(qSales);
+
+    querySnapshotSales.forEach((doc) => {
+      this.numQtd = doc.data()['qtd'];
+      this.uid = doc.data()['uid']
+      this.salesData.push(doc.data());
     });
 
 
 }
-  async userCustomers(id: any){
+  async userCustomers( id: any){
     this.userCustomersArray = []
 
   const q = query(collection(db, "users", id, "customers"));
@@ -96,10 +106,12 @@ const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
   this.idUserCustomer = doc.data()['id'];
   this.name = doc.data()['nameResponsible'];
+  this.idResponsible = doc.data()['responsible'];
   this.userCustomersArray.push(doc.data())
   // doc.data() is never undefined for query doc snapshots
 
 });
+
 }
   async clearAll(){
     this.clearAllBool = false;
@@ -151,9 +163,9 @@ querySnapshot.forEach(async (doc) => {
   await deleteDoc( doc.ref);
 });
 
-  const qUser = query(collection(db, "users", uid, "customers"), where("responsible", "==", this.idUserClear));
+  const qReception = query(collection(db, "users", uid, "customers"), where("responsible", "==", this.idUserClear));
 
-  const querySnapshotUser = await getDocs(qUser);
+  const querySnapshotUser = await getDocs(qReception);
   querySnapshotUser.forEach(async (doc) => {
 
     this.docRef = doc.id
@@ -178,5 +190,14 @@ querySnapshot.forEach((doc) => {
   setTimeout(() => {
     this.clearAllBool = true;
   }, 3000);
+}
+
+  async numberApproved(id: any){
+console.log(id)
+const docRef = doc(db, "users", id);
+await updateDoc(docRef, {
+  numberApprovedDecJan: this.approvedValue
+});
+
 }
 }

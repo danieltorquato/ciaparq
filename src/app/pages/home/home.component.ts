@@ -1,6 +1,6 @@
 import { auth } from '../../envoirements/environments';
 import { Component, OnInit } from '@angular/core';
-import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, increment, orderBy, limit, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, increment, orderBy, limit, deleteDoc, QueryDocumentSnapshot  } from "firebase/firestore";
 import { db } from 'src/app/envoirements/environments';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Router } from '@angular/router';
@@ -40,9 +40,19 @@ export class HomeComponent implements OnInit {
   deleted = false;
   customerResponsible: any;
   customerDelete: any[] = [];
+  docId: string = '';
+  numberApproved: any;
+  salesData: any[] = [];
+  receptionData: any[] = [];
+  firstPlace: number = 0;
+  secondPlace: number = 0;
+  firstPlaceReception: number = 0;
+  secondPlaceReception: number = 0;
+  uidRanking: any;
   constructor(router: Router) { this.router = router; }
 
   ngOnInit(): void {
+    this.dataUserCustomer();
     onAuthStateChanged(auth, async (user) => {
 
       if (user) {
@@ -86,14 +96,16 @@ export class HomeComponent implements OnInit {
         responsible: this.uid,
         nameResponsible: this.nameResponsible,
         created: this.dateCompleted,
-        timestamp: this.timestamp
+        timestamp: this.timestamp,
+        verified: false
       });
       await setDoc(doc(db, "customers", customerId), {
         id: this.idCustomer,
         responsible: this.uid,
         nameResponsible: this.nameResponsible,
         created: this.dateCompleted,
-        timestamp: this.timestamp
+        timestamp: this.timestamp,
+        verified: false
       });
       await updateDoc(doc(db, "users", this.uid), {
         qtd: increment(1)
@@ -141,6 +153,31 @@ showDelete(){
   setTimeout(() => {
     window.location.reload();
   }, 1000)
+
+}
+async dataUserCustomer(){
+
+  const qReception = query(collection(db, "users"), where("numberApprovedDecJan" , ">=", 1),where("category" , "==", "reception"), orderBy("numberApprovedDecJan", "desc"), limit(2));
+
+  const querySnapshotUser = await getDocs(qReception);
+
+  querySnapshotUser.forEach((doc) => {
+    this.numQtd = doc.data()['qtd'];
+    this.uidRanking = doc.data()['uid']
+    this.receptionData.push(doc.data());
+
+  });
+  const qSales = query(collection(db, "users"), where("numberApprovedDecJan" , ">=", 1),where("category" , "==", "sales"), orderBy("numberApprovedDecJan", "desc"),limit(1));
+
+  const querySnapshotSales = await getDocs(qSales);
+
+  querySnapshotSales.forEach((doc) => {
+    this.numQtd = doc.data()['qtd'];
+    this.uidRanking = doc.data()['uid']
+    this.salesData.push(doc.data());
+
+
+  });
 
 }
 }

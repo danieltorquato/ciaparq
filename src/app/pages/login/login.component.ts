@@ -24,7 +24,7 @@ login(){
   .catch((error) => {
     this.errorCode = error.code;
     const errorMessage = error.message;
-  
+
 
   });
 }

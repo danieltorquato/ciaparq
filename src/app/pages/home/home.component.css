@@ -15,3 +15,59 @@ body{
 .modal-content{
   background-color: rgb(52, 52, 52);
 }
+.idForm{
+margin-top: 10px;
+}
+.center-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 100% da altura da viewport (janela do navegador) */
+  width: 80vh;
+}
+.modal-body{
+  display: flex;
+  flex-wrap: wrap;
+}
+.cardranking{
+  margin-bottom: 10px;
+}
+.btnclear{
+  width: 100%;
+}
+.btnSuper{
+  width: 100%;
+}
+img{
+  width: 100%;
+  height: 100%;
+  max-width: 180px;
+}
+.list-group-item-action{
+  cursor: pointer;
+}
+.modal-backdrop {
+  z-index: -1;
+}
+.header-ranking{
+  background-color: #198754;
+}
+.ranking-month{
+  border: solid 1px white;
+  border-radius: 10px;
+}
+.container-fluid{
+  width: 50%;
+}
+.row-ranking{
+  border: solid 1px white;
+  border-radius: 30px;
+  width: 99%;
+  margin-left: 10px;
+  white-space: nowrap;
+align-items: center;
+}
+.sub{
+  color: black;
+  background-color: white;
+}
