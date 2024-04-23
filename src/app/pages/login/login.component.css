@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* 100% da altura da viewport (janela do navegador) */
+  height: 100vh;
 
 }
 .btn{
@@ -14,8 +14,7 @@ border-radius: 50px;
 }
 h1{
   text-align: center;
-  /* margin-bottom: 1em;
-  margin-top: -1em ; */
+
 }
 .col{
   padding: 20px 40px 20px 40px;

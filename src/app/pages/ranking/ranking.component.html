@@ -3,6 +3,7 @@
   </div>
   <div class="container center-div">
     <div class="row">
+      <h1 style="text-align: center; color:#198754;"> Ranking Geral</h1>
       <div class="col">
         <h2 style="text-align: center;">Recepção</h2>
         <div class="card md-10 cardranking" *ngFor="let item of receptionData">
@@ -17,7 +18,7 @@
                 <p class="card-text">
                   <small class="text-body-secondary">Indicações: </small>
                   {{ item.qtd }}
-                  
+
                 </p>
                 <!-- Button trigger modal -->
                 <div *ngFor="let user of actuallyUserArray" >
